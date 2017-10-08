@@ -10,6 +10,8 @@
       <v-card>
         <v-card-text>
           <p>Welcome to the Electron-vue + Vuetify template.</p>
+          <v-btn @click="openServer">start</v-btn>
+          <v-btn @click="endServer">end</v-btn>
           <p>Vuetify is a progressive Material Design component framework for Vue.js. It was designed to empower developers to create amazing applications. For more information on Vuetify, check out the <a href="https://vuetifyjs.com" target="_blank">documentation</a>. If you have questions, please join the official <a href="https://chat.vuetifyjs.com/" target="_blank" title="chat">discord</a>. Find a bug? Report it on the github <a href="https://github.com/vuetifyjs/vuetify/issues" target="_blank" title="contribute">issue board</a>.</p>
           <p>Thank you for developing with Vuetify and I look forward to bringing more exciting features in the future.</p>
           <div class="text-xs-right">
@@ -45,13 +47,34 @@
 
 <script>
   import SystemInformation from './WelcomeView/SystemInformation'
-
+  const { spawn } = require('child_process')
   export default {
     name: 'welcome',
+    data () {
+      return {
+        server: []
+      }
+    },
     components: { SystemInformation },
     methods: {
       open (link) {
         this.$electron.shell.openExternal(link)
+      },
+      openServer () {
+        // open the server
+        this.server = spawn('node', ['./src/server/bin/www'], { cwd: process.cwd() })
+        this.server.stdout.on('data', (data) => {
+          console.log(`stdout: ${data}`)
+        })
+        this.server.stderr.on('data', (data) => {
+          console.log(`stderr: ${data}`)
+        })
+        this.server.on('close', (code) => {
+          console.log(`子进程退出码：${code}`)
+        })
+      },
+      endServer () {
+        this.server.kill()
       }
     }
   }

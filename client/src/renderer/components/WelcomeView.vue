@@ -47,7 +47,7 @@
 
 <script>
   import SystemInformation from './WelcomeView/SystemInformation'
-  const { spawn } = require('child_process')
+  import Server from '../../server/app'
   export default {
     name: 'welcome',
     data () {
@@ -62,19 +62,16 @@
       },
       openServer () {
         // open the server
-        this.server = spawn('node', ['./src/server/bin/www'], { cwd: process.cwd() })
-        this.server.stdout.on('data', (data) => {
-          console.log(`stdout: ${data}`)
-        })
-        this.server.stderr.on('data', (data) => {
-          console.log(`stderr: ${data}`)
-        })
-        this.server.on('close', (code) => {
-          console.log(`子进程退出码：${code}`)
-        })
+        this.server = new Server(4000)
       },
       endServer () {
-        this.server.kill()
+        this.server.close(err => {
+          if (!err) {
+            console.log('is closed')
+          } else {
+            console.log(err)
+          }
+        })
       }
     }
   }

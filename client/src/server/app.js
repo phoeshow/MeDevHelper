@@ -36,7 +36,8 @@ class Server {
     app.use(function (err, req, res, next) {
       // set locals, only providing error in development
       res.locals.message = err.message
-      res.locals.error = req.app.get('env') === 'development' ? err : {}
+      res.locals.error = err
+      // req.app.get('env') === 'development' ? err : {}
 
       // render the error page
       res.status(err.status || 500)
@@ -68,12 +69,10 @@ class Server {
     switch (error.code) {
       case 'EACCES':
         console.error(bind + ' requires elevated privileges')
-        throw new Error(bind + ' requires elevated privileges')
-        // break
+        break
       case 'EADDRINUSE':
         console.error(bind + ' is already in use')
-        throw new Error(bind + ' is already in use')
-        // break
+        break
       default:
         throw error
     }

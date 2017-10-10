@@ -6,18 +6,18 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'welcome-view',
-      component: require('@/components/WelcomeView')
+      path: '/mockserver',
+      name: 'mockserver',
+      component: require('@/components/MockserverView/MockserverView')
     },
     {
-      path: '/inspire',
-      name: 'inspire',
-      component: require('@/components/InspireView')
+      path: '/mockmanager',
+      name: 'mockmanager',
+      component: require('@/components/MockmanagerView/MockmanagerView')
     },
     {
       path: '*',
-      redirect: '/'
+      redirect: '/mockserver'
     }
   ]
 })

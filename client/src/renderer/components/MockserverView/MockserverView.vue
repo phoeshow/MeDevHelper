@@ -7,17 +7,18 @@
         </v-card-title>
         <v-card-text>
           <v-layout row wrap>
-            <v-flex xs4>
+            <v-flex xs12 sm12 md4>
               <v-text-field label="Port" v-model="port"></v-text-field>
             </v-flex>
             <v-spacer></v-spacer>
-            <v-flex xs4>
+            <v-flex xs12 sm12 md4>
               <v-select label="Config"></v-select>
             </v-flex>
             <v-spacer></v-spacer>
-            <v-flex xs2>
-              <v-btn icon color="green" @click="createServer">
+            <v-flex xs12 sm12 md2>
+              <v-btn color="green" @click="createServer">
                 <v-icon>play_arrow</v-icon>
+                start
               </v-btn>
             </v-flex>
           </v-layout>

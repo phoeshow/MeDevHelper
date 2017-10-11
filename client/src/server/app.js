@@ -4,6 +4,7 @@ var path = require('path')
 var logger = require('morgan')
 var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
+var cors = require('cors')
 
 var index = require('./routes/index')
 var api = require('./routes/api')
@@ -17,6 +18,7 @@ class Server {
     app.set('view engine', 'jade')
 
     app.use(logger('dev'))
+    app.use(cors())
     app.use(bodyParser.json())
     app.use(bodyParser.urlencoded({ extended: false }))
     app.use(cookieParser())
@@ -37,9 +39,7 @@ class Server {
       // set locals, only providing error in development
       res.locals.message = err.message
       res.locals.error = err
-      // req.app.get('env') === 'development' ? err : {}
 
-      // render the error page
       res.status(err.status || 500)
       res.send({
         message: res.locals.message,
@@ -49,33 +49,7 @@ class Server {
     this.server = http.createServer(app).on('connection', socket => {
       socket.setTimeout(500)
     }).listen(port)
-    this.port = port
-    this.server.on('error', this.onError.bind(this))
     return this.server
-  }
-  /**
- * Event listener for HTTP server "error" event.
- */
-
-  onError (error) {
-    if (error.syscall !== 'listen') {
-      throw error
-    }
-    var bind = typeof this.port === 'string'
-      ? 'Pipe ' + this.port
-      : 'Port ' + this.port
-
-    // handle specific listen errors with friendly messages
-    switch (error.code) {
-      case 'EACCES':
-        console.error(bind + ' requires elevated privileges')
-        break
-      case 'EADDRINUSE':
-        console.error(bind + ' is already in use')
-        break
-      default:
-        throw error
-    }
   }
 }
 

@@ -11,7 +11,7 @@ var api = require('./routes/api')
 
 class Server {
   constructor (port = 3000) {
-    var app = express()
+    let app = express()
 
     // view engine setup
     app.set('views', path.join(__dirname, 'views'))
@@ -46,10 +46,22 @@ class Server {
         error: res.locals.error
       })
     })
+
     this.server = http.createServer(app).on('connection', socket => {
       socket.setTimeout(500)
-    }).listen(port)
-    return this.server
+    })
+    this.port = port
+    this.running = false
+  }
+
+  start () {
+    this.server.listen(this.port, () => {
+      this.running = true
+    })
+  }
+
+  close (cb) {
+    this.server.close(cb)
   }
 }
 

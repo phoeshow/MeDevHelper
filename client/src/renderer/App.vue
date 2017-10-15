@@ -10,15 +10,15 @@
       </v-content>
     </main>
     <VFooter></VFooter>
-    <!-- 出错提示 -->
+    <!-- 信息提示 -->
     <v-snackbar
       :timeout="timeout"
       :color="toastsMsg.color"
       top
-      v-model="toastsMsg.snackbar"
+      v-model="toastsMsg.show"
     >
-      {{ toastsMsg.toastsText }}
-      <v-btn dark flat @click.native="toastsMsg.snackbar = false">Close</v-btn>
+      {{ toastsMsg.text }}
+      <v-btn dark flat @click.native="toastsMsg.show = false">Close</v-btn>
     </v-snackbar>
   </v-app>
 </template>
@@ -34,9 +34,9 @@ export default {
     timeout: 3000,
     port: '',
     toastsMsg: {
-      snackbar: false,
+      show: false,
       color: 'error',
-      toastsText: ''
+      text: ''
     }
   }),
 

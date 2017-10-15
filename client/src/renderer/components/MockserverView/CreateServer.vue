@@ -53,15 +53,15 @@ export default {
       // handle specific listen errors with friendly messages
       switch (error.code) {
         case 'EACCES':
-          message.toastsText = bind + ' requires elevated privileges'
+          message.text = bind + ' requires elevated privileges'
           message.color = 'error'
-          message.snackbar = true
+          message.show = true
           console.error(bind + ' requires elevated privileges')
           break
         case 'EADDRINUSE':
-          message.toastsText = bind + ' is already in use'
+          message.text = bind + ' is already in use'
           message.color = 'error'
-          message.snackbar = true
+          message.show = true
           console.error(bind + ' is already in use')
           break
         default:

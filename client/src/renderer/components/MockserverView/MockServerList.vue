@@ -21,6 +21,12 @@
               <v-btn @click="stopServer(server)">
                 stop
               </v-btn>
+              <v-btn @click="openServer(server)">
+                open
+              </v-btn>
+              <v-btn @click="deleteServer(server)">
+                delete
+              </v-btn>
             </v-flex>
           </v-layout>
         </v-card-text>
@@ -48,6 +54,13 @@ export default {
           server.running = false
         }
       })
+    },
+    openServer (server) {
+      console.log('this server will open again')
+      server.start()
+    },
+    deleteServer (server) {
+      EventBus.$emit('message', {show: true, color: 'info', text: '目前还没有实现这个功能'})
     }
   }
 }

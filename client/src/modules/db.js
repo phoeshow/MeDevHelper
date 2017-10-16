@@ -1,3 +1,8 @@
-var mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost:27017/test', { useMongoClient: true })
-mongoose.Promise = global.Promise
+import Datastore from 'nedb'
+const app = require('electron').remote.app
+const dbpath = process.env.NODE_ENV === 'development' ? __dirname : app.getAppPath()
+console.log(dbpath)
+export default new Datastore({
+  filename: `${dbpath}/mockdb.db`,
+  autoload: true
+})

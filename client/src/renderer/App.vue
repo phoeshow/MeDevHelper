@@ -61,7 +61,7 @@ export default {
 
   created () {
     // 在较早的加载事件中检查数据库与连接数据库
-    console.log(this.$electron.remote.app.getAppPath())
+
   }
 }
 </script>

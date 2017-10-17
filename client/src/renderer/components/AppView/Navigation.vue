@@ -13,12 +13,14 @@
           </v-list-tile-content>
         </v-list-tile>
       </template>
-      <v-list-tile>
-          <v-list-tile-action>
-            <v-icon>arrow_back</v-icon>
-          </v-list-tile-action>
-        </v-list-tile>
     </v-list>
+    <div class="scroll-nav">
+      <v-btn icon @click="miniNavigation = !miniNavigation">
+        <v-icon>
+          {{ miniNavigation ? 'last_page' : 'first_page'}}
+        </v-icon>
+      </v-btn>
+    </div>
   </v-navigation-drawer>
 </template>
 
@@ -32,14 +34,21 @@ export default {
       miniNavigation: false,
       navigation: [
         { header: 'Mock' },
-        { icon: 'dashboard', title: 'MockServer', to: '/mockserver' },
+        { icon: 'device_hub', title: 'MockServer', to: '/mockserver' },
         { icon: 'settings', title: 'MockManager', to: '/mockmanager' },
         { divider: true, inset: true }
-        // { divider: true, inset: true },
-        // { icon: 'play_arrow', title: 'Oui oui', to: '/mockserver' }
       ]
     }
   }
 }
 </script>
+
+<style scoped>
+.scroll-nav{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+</style>
+
 

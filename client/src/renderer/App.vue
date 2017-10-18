@@ -10,15 +10,15 @@
       </v-content>
     </main>
     <VFooter></VFooter>
-    <!-- 出错提示 -->
+    <!-- 信息提示 -->
     <v-snackbar
       :timeout="timeout"
-      :color="color"
+      :color="toastsMsg.color"
       top
-      v-model="snackbar"
+      v-model="toastsMsg.show"
     >
-      {{ toastsText }}
-      <v-btn dark flat @click.native="snackbar = false">Close</v-btn>
+      {{ toastsMsg.text }}
+      <v-btn dark flat @click.native="toastsMsg.show = false">Close</v-btn>
     </v-snackbar>
   </v-app>
 </template>
@@ -28,15 +28,17 @@ import Navigation from '@/components/AppView/Navigation'
 import VFooter from '@/components/AppView/Footer'
 import Toolbar from '@/components/AppView/Toolbar'
 import EventBus from './eventbus/eventbus'
-import Server from '../server/app'
+// import fs from 'fs'
 export default {
   data: () => ({
     serverList: [],
-    timeout: 6000,
-    snackbar: false,
-    color: 'error',
+    timeout: 3000,
     port: '',
-    toastsText: ''
+    toastsMsg: {
+      show: false,
+      color: 'error',
+      text: ''
+    }
   }),
 
   components: {
@@ -45,48 +47,21 @@ export default {
     Toolbar
   },
 
-  methods: {
-    createServer (port, config) {
-      console.log(`当前服务器将要使用的端口号是：${port}`)
-      console.log(`服务器的设置内容为：${config}`)
-      this.port = port
-      let server = new Server(port)
-      server.on('error', this.onError)
-      if (server.listening) {
-        this.serverList.push(server)
-      }
-    },
-    onError (error) {
-      if (error.syscall !== 'listen') {
-        throw error
-      }
-      var bind = 'Port ' + this.port
-
-      // handle specific listen errors with friendly messages
-      switch (error.code) {
-        case 'EACCES':
-          this.toastsText = bind + ' requires elevated privileges'
-          this.color = 'error'
-          this.snackbar = true
-          console.error(bind + ' requires elevated privileges')
-          break
-        case 'EADDRINUSE':
-          this.toastsText = bind + ' is already in use'
-          this.color = 'error'
-          this.snackbar = true
-          console.error(bind + ' is already in use')
-          break
-        default:
-          throw error
-      }
-    }
+  mounted () {
+    // 全局提示框，通过事件总线传递内容
+    // EventBus.$emit('message', {snacbar: true, color: 'error', toastsText: 'some messages'})
+    EventBus.$on('message', (message) => {
+      this.toastsMsg = message
+    })
+    // 将开启的服务器保存在全局事件总线中
+    EventBus.$on('createServer', (server) => {
+      EventBus.$data.mockServerList.push(server)
+    })
   },
 
-  mounted () {
-    EventBus.$on('createServer', payload => {
-      console.log(payload)
-      this.createServer(payload.port, payload.config)
-    })
+  created () {
+    // 在较早的加载事件中检查数据库与连接数据库
+
   }
 }
 </script>

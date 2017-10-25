@@ -1,12 +1,18 @@
 <template>
-  <v-layout wrap row align-start>
+  <v-layout wrap row>
     <v-flex xs12>
-      <v-card dark>
-        <v-card-title class="py-1 deep-orange">
+      <v-card dark :height="'100%'">
+        <v-card-title class="deep-orange py-1">
           <span>Setting</span>
           <v-spacer></v-spacer>
-          <v-btn icon @click="createDialog = true" dark>
-            <v-icon>add</v-icon>
+          <v-btn icon small @click="createDialog = true" dark>
+            <v-icon>create_new_folder</v-icon>
+          </v-btn>
+          <v-btn small icon dark>
+            <v-icon>note_add</v-icon>
+          </v-btn>
+          <v-btn small icon dark>
+            <v-icon>sort</v-icon>
           </v-btn>
           <v-dialog v-model="createDialog" persistent max-width="500px">
             <v-card>
@@ -33,12 +39,14 @@
             </v-card>
           </v-dialog>
         </v-card-title>
-        <v-flex xs3>
-          <mock-setting-list></mock-setting-list>
-        </v-flex>
-        <v-flex xs9>
-          
-        </v-flex>
+        <v-layout row wrap>
+          <v-flex xs3>
+            <mock-setting-list></mock-setting-list>
+          </v-flex>
+          <v-flex xs9>
+            <api-list></api-list>
+          </v-flex>
+        </v-layout>
       </v-card>
     </v-flex>
   </v-layout>
@@ -46,6 +54,7 @@
 
 <script>
 import MockSettingList from './MockSettingList'
+import ApiList from './ApiList'
 export default {
   data () {
     return {
@@ -53,7 +62,8 @@ export default {
     }
   },
   components: {
-    MockSettingList
+    MockSettingList,
+    ApiList
   }
 }
 </script>

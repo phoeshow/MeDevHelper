@@ -28,10 +28,17 @@
         @change="onEditorCodeChange"
       ></codemirror>
     </v-flex>
+    <v-flex xs12>
+      <v-btn>save</v-btn>
+    </v-flex>
   </v-layout>
 </template>
 <script>
 import codemirror from '../common/codemirror'
+import 'codemirror/addon/edit/closebrackets' // 自动补全括号
+import 'codemirror/addon/edit/matchbrackets' // 高亮匹配括号
+import 'codemirror/addon/lint/json-lint'
+require('codemirror/addon/lint/lint.css')
 export default {
   data () {
     return {
@@ -39,13 +46,16 @@ export default {
       editorOptions: {
         // codemirror options
         tabSize: 2,
-        mode: {
-          name: 'javascript',
-          json: true
-        },
+        mode: 'application/json',
         theme: 'base16-dark',
         lineNumbers: true,
-        line: true
+        line: true,
+        // editor mutil
+        gutters: ['CodeMirror-lint-markers'],
+        matchBrackets: true,
+        autoCloseBrackets: true,
+        lint: true,
+        lintOnChange: true
       }
     }
   },

@@ -16,6 +16,11 @@ export default new Router({
       component: require('@/components/MockmanagerView/MockmanagerView')
     },
     {
+      path: '/test',
+      name: 'test',
+      component: require('@/components/TestView/TestView')
+    },
+    {
       path: '*',
       redirect: '/mockserver'
     }

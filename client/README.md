@@ -1,6 +1,10 @@
-# memock-client
+# MeDevHelper-client
 
-> MeMock 的客户端
+> MeDevHelper 的客户端
+
+## Note
+
+我在使用vue-codemirror 的时候发现与当前的项目配合出现问题，一直在报语法错误，但是又找不到问题出在哪里，所以我将 Surmonde 的代码提取出来并重新封装了一下，目前可以正常工作了。具体demo可以在test中查看 
 
 #### Build Setup
 
@@ -25,4 +29,4 @@ npm run lint
 
 ---
 
-This project was generated with [electron-vue](https://github.com/SimulatedGREG/electron-vue) using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about the original structure can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/index.html).
+

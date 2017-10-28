@@ -36,6 +36,9 @@ export default {
         { header: 'Mock' },
         { icon: 'device_hub', title: 'MockServer', to: '/mockserver' },
         { icon: 'settings', title: 'MockManager', to: '/mockmanager' },
+        { divider: true, inset: true },
+        { header: 'Test' },
+        { icon: 'settings', title: 'test', to: '/test' },
         { divider: true, inset: true }
       ]
     }

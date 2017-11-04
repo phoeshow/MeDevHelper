@@ -3,48 +3,75 @@
     <v-flex xs12>
       <v-card dark :height="'100%'">
         <v-card-title class="deep-orange py-1">
-          <span>Setting</span>
+          <span class="title">Setting</span>
+          <span class="body-2 ml-4">{{currentProject.name}} ---</span>
+          <span class="body-2">{{currentProject.version}}</span>
           <v-spacer></v-spacer>
-          <v-btn icon small @click="createDialog = true" dark>
+          <v-btn icon small @click="createProjectDialog = true" dark>
+            <!-- 创建新工程 -->
             <v-icon>create_new_folder</v-icon>
           </v-btn>
-          <v-btn small icon dark>
+          <v-btn small icon dark @click="createNewApi">
+            <!-- 在当前工程中创建新设置 -->
             <v-icon>note_add</v-icon>
           </v-btn>
           <v-btn small icon dark>
             <v-icon>sort</v-icon>
           </v-btn>
-          <v-dialog v-model="createDialog" persistent max-width="500px">
+          <!-- 创建新工程的对话框 -->
+          <v-dialog v-model="createProjectDialog" persistent max-width="500px">
             <v-card>
               <v-card-title>
-                <span class="headline">Add new setting</span>
+                <span class="headline">Create Project</span>
               </v-card-title>
-              <v-card-text>
-                <v-container grid-list-md>
-                  <v-layout wrap>
-                    <v-flex xs12 sm6 md4>
-                      <v-text-field label="Setting name" required></v-text-field>
-                    </v-flex>
-                    <v-flex xs12>
-                      <v-text-field label="Description" required></v-text-field>
-                    </v-flex>
-                  </v-layout>
-                </v-container>
-              </v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" flat @click.native="createDialog = false">Close</v-btn>
-                <v-btn color="blue darken-1" flat @click.native="createDialog = false">Save</v-btn>
-              </v-card-actions>
+              <v-form v-model="valid" ref="createProjectForm" lazy-validation>
+                <v-card-text>
+                  <v-container grid-list-md>
+                    <v-layout wrap>
+                      
+                        <v-flex xs12 sm6 md6>
+                          <v-text-field 
+                            label="Project name" 
+                            required 
+                            :rules="nameRules"
+                            v-model="createProject.name"></v-text-field>
+                        </v-flex>
+                        <v-flex xs12 sm6 md6>
+                          <v-text-field
+                            label="Version" 
+                            required 
+                            :rules="versionRules"
+                            v-model="createProject.version"></v-text-field>
+                        </v-flex>
+                        <v-flex xs12>
+                          <v-text-field 
+                            label="Description"
+                            required 
+                            :rules="descriptionRules"
+                            v-model="createProject.description"></v-text-field>
+                        </v-flex>
+                    </v-layout>
+                  </v-container>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="blue darken-1" flat @click.native="closeCreateDialog">Close</v-btn>
+                  <v-btn color="blue darken-1" flat @click.native="createProjectHandler" :disabled="!valid">Save</v-btn>
+                </v-card-actions>
+              </v-form>
             </v-card>
           </v-dialog>
+          <!-- 对话框结束 -->
         </v-card-title>
         <v-layout row wrap>
           <v-flex xs3>
-            <mock-setting-list></mock-setting-list>
+            <project-list
+              :projectList="projectList"  
+            ></project-list>
           </v-flex>
           <v-flex xs9>
-            <api-list></api-list>
+            <api-list
+              :apiList="apiList"></api-list>
           </v-flex>
         </v-layout>
       </v-card>
@@ -53,17 +80,82 @@
 </template>
 
 <script>
-import MockSettingList from './MockSettingList'
+import ProjectList from './ProjectList'
 import ApiList from './ApiList'
+import {mapActions} from 'Vuex'
 export default {
   data () {
     return {
-      createDialog: false
+      valid: false,
+      createProjectDialog: false,
+      createProject: {
+        name: '',
+        version: '',
+        description: ''
+      },
+      nameRules: [
+        (v) => {
+          return !!v || 'Name is required'
+        }
+      ],
+      versionRules: [
+        (v) => !!v || 'Version is required'
+      ],
+      descriptionRules: [
+        (v) => !!v || 'Description is required'
+      ]
     }
   },
   components: {
-    MockSettingList,
+    ProjectList,
     ApiList
+  },
+  methods: {
+    async createProjectHandler () {
+      // 点击创建项目按钮
+      if (this.$refs.createProjectForm.validate()) {
+        let projectData = {
+          name: this.createProject.name,
+          version: this.createProject.version,
+          description: this.createProject.description
+        }
+        try {
+          await this.actionAddProject(projectData)
+          this.closeCreateDialog()
+        } catch (err) {
+          console.log(err)
+        }
+      }
+    },
+    closeCreateDialog () {
+      this.$refs.createProjectForm.reset()
+      this.createProjectDialog = false
+    },
+    createNewApi () {
+      // 在当前project中添加一个新的api文档,其实是在当前的配置中添加一个新的空白文档
+      this.actionAddApi()
+    },
+    ...mapActions({
+      actionAddProject: 'addProject',
+      acitonGetProjectList: 'getProjectList',
+      actionAddApi: 'addApi'
+    })
+  },
+
+  computed: {
+    projectList () {
+      return this.$store.state.MockManager.projectList
+    },
+    apiList () {
+      return this.$store.state.MockManager.apiList
+    },
+    currentProject () {
+      return this.$store.state.MockManager.currentProject
+    }
+  },
+
+  mounted () {
+    this.acitonGetProjectList()
   }
 }
 </script>

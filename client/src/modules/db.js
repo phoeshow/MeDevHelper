@@ -1,13 +1,13 @@
 import Datastore from 'nedb'
-const path = require('path')
-// 根据当前平台获取到用户文件夹
-function getUserHome () {
-  return process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME']
+import path from 'path'
+import {remote} from 'electron'
+
+const db = {
+  projects: new Datastore(path.join(remote.app.getPath('userData'), 'projects.db')),
+  apis: new Datastore(path.join(remote.app.getPath('userData'), 'apis.db'))
 }
 
-const dbpath = process.env.NODE_ENV === 'development' ? __dirname : path.join(getUserHome(), '.memock/')
-console.log(dbpath)
-export default new Datastore({
-  filename: `${dbpath}/mockdb.db`,
-  autoload: true
-})
+db.projects.loadDatabase()
+db.apis.loadDatabase()
+
+export default db

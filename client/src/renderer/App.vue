@@ -1,7 +1,7 @@
 <template>
   <v-app id="inspire" light>
     <Navigation></Navigation>
-    <Toolbar></Toolbar>
+    <Toolbar style="-webkit-app-region: drag;-webkit-user-select: none"></Toolbar>
     <main>
       <v-content>
         <v-container fluid fill-height>
@@ -27,7 +27,7 @@
 import Navigation from '@/components/AppView/Navigation'
 import VFooter from '@/components/AppView/Footer'
 import Toolbar from '@/components/AppView/Toolbar'
-import EventBus from './eventbus/eventbus'
+import EventBus from './eventbus'
 // import fs from 'fs'
 export default {
   data: () => ({
@@ -72,7 +72,7 @@ export default {
 
 
 <style>
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons');
-
+@import url('./assets/font.css');
+html::-webkit-scrollbar {display:none}
 /* Global CSS */
 </style>

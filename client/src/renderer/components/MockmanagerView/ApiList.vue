@@ -1,13 +1,9 @@
 <template>
 
     <v-expansion-panel>
-      <v-expansion-panel-content v-for="(item,i) in 5" :key="i">
+      <v-expansion-panel-content v-for="(apiItem,i) in apiList" :key="apiItem._id" lazy>
         <div slot="header">Item{{i}}</div>
-        <v-card flat>
-          <v-card-text class="grey lighten-3">
-            <api-config></api-config>
-          </v-card-text>
-        </v-card>
+            <api-config :index="i"></api-config>
       </v-expansion-panel-content>
     </v-expansion-panel>
 
@@ -18,10 +14,20 @@ import ApiConfig from './Apiconfig'
 export default {
   name: 'mock-setting-apiconfig',
   data () {
-    return {}
+    return {
+
+    }
   },
   components: {
     ApiConfig
+  },
+  props: {
+    apiList: {
+      type: Array,
+      required: true
+    }
+  },
+  computed: {
   }
 }
 </script>

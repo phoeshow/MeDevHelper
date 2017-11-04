@@ -1,48 +1,55 @@
 <template>
-  <v-layout row wrap>
-    <v-flex xs6 class="px-1">
-      <v-text-field
-        name="input-1"
-        label="Name"
-      ></v-text-field>
-    </v-flex>
-    <v-flex xs6 class="px-1">
-      <v-text-field
-        name="input-2"
-        label="API"
-      ></v-text-field>
-    </v-flex>
-    <v-flex xs12 class="px-1">
-      <v-text-field
-        name="input-3"
-        label="description"
-      ></v-text-field>
-    </v-flex>
-    <v-flex xs12>
-      <codemirror
-        ref="myEditor"
-        :code="code" 
-        :options="editorOptions"
-        @ready="onEditorReady"
-        @focus="onEditorFocus"
-        @change="onEditorCodeChange"
-      ></codemirror>
-    </v-flex>
-    <v-flex xs12>
-      <v-btn>save</v-btn>
-    </v-flex>
-  </v-layout>
+  <v-card flat>
+    <v-card-text class="grey lighten-3">
+      <v-layout row wrap>
+        <v-flex xs6 class="px-1">
+          <v-text-field
+            name="input-1"
+            label="Name"
+            v-model="currentApiName"
+          ></v-text-field>
+        </v-flex>
+        <v-flex xs6 class="px-1">
+          <v-text-field
+            name="input-2"
+            label="API"
+            v-model="currentApiApi"
+          ></v-text-field>
+        </v-flex>
+        <v-flex xs12 class="px-1">
+          <v-text-field
+            name="input-3"
+            label="description"
+            v-model="currentApiDescription"
+          ></v-text-field>
+        </v-flex>
+        <v-flex xs12>
+          <codemirror
+            ref="myEditor"
+            v-model="currentApiCode"
+            :options="editorOptions"
+          ></codemirror>
+        </v-flex>
+      </v-layout>
+    </v-card-text>
+    <v-card-actions class="grey lighten-3">
+      <v-btn @click="deleteApi" color="error">delete</v-btn>
+      <v-spacer></v-spacer>
+      <v-btn @click="saveApi">save</v-btn>
+    </v-card-actions>
+  </v-card>
 </template>
 <script>
 import codemirror from '../common/codemirror'
 import 'codemirror/addon/edit/closebrackets' // 自动补全括号
 import 'codemirror/addon/edit/matchbrackets' // 高亮匹配括号
 import 'codemirror/addon/lint/json-lint'
+import {mapActions} from 'vuex'
+// import Code from './code'
 require('codemirror/addon/lint/lint.css')
 export default {
   data () {
     return {
-      code: '',
       editorOptions: {
         // codemirror options
         tabSize: 2,
@@ -60,24 +67,64 @@ export default {
     }
   },
   methods: {
-    onEditorReady (editor) {
-      console.log('the editor is readied!', editor)
+    saveApi () {
+      this.actionSaveApi(this.index)
     },
-    onEditorFocus (editor) {
-      console.log('the editor is focus!', editor)
-    },
-    onEditorCodeChange (newCode) {
-      console.log('this is new code', newCode)
-      this.code = newCode
+    ...mapActions({
+      actionAddApi: 'addApi',
+      actionSaveApi: 'updateApi',
+      actionDeleteApi: 'deleteApi'
+    }),
+    deleteApi () {
+      this.actionDeleteApi(this.index)
     }
   },
   computed: {
     editor () {
       return this.$refs.myEditor.editor
+    },
+    currentApiName: {
+      get () {
+        return this.$store.state.MockManager.apiList[this.index].name
+      },
+      set (value) {
+        this.$store.commit('SET_API_NAME', {index: this.index, value: value})
+      }
+    },
+    currentApiApi: {
+      get () {
+        return this.$store.state.MockManager.apiList[this.$props.index].api
+      },
+      set (value) {
+        this.$store.commit('SET_API_API', {index: this.index, value: value})
+      }
+    },
+    currentApiCode: {
+      get () {
+        return this.$store.state.MockManager.apiList[this.$props.index].code
+      },
+      set (value) {
+        this.$store.commit('SET_API_CODE', {index: this.index, value: value})
+      }
+    },
+    currentApiDescription: {
+      get () {
+        return this.$store.state.MockManager.apiList[this.$props.index].description
+      },
+      set (value) {
+        this.$store.commit('SET_API_DESCRIPTION', {index: this.index, value: value})
+      }
+    }
+  },
+  props: {
+    index: {
+      type: Number,
+      required: true
     }
   },
   mounted () {
-    console.log('this is current editor object', this.editor)
+    // console.log('this is current editor object', this.editor)
+    // console.log(Code)
   },
   components: {
     codemirror

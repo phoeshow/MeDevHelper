@@ -2329,9 +2329,12 @@ var winURL = process.env.NODE_ENV === 'development' ? 'http://localhost:9080' : 
 
 function createWindow() {
   mainWindow = new __WEBPACK_IMPORTED_MODULE_0_electron__["BrowserWindow"]({
-    height: 563,
+    height: 768,
     useContentSize: true,
-    width: 1000
+    width: 1024,
+    minWidth: 800,
+    minHeight: 600,
+    frame: false
   });
 
   mainWindow.loadURL(winURL);

@@ -26,7 +26,7 @@
 
 <script>
 import Server from '../../../server/app'
-import EventBus from '../../eventbus/eventbus'
+import EventBus from '../../eventbus'
 export default {
   data () {
     return {

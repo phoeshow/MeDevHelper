@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import EventBus from '../../eventbus/eventbus'
+import EventBus from '../../eventbus'
 export default {
   name: 'mockserverlist',
 

@@ -14,17 +14,11 @@
         </v-list-tile>
       </template>
     </v-list>
-    <div class="scroll-nav">
-      <v-btn icon @click="miniNavigation = !miniNavigation">
-        <v-icon>
-          {{ miniNavigation ? 'last_page' : 'first_page'}}
-        </v-icon>
-      </v-btn>
-    </div>
   </v-navigation-drawer>
 </template>
 
 <script>
+import EventBus from '../../eventbus'
 export default {
   name: 'Navigation',
 
@@ -42,16 +36,15 @@ export default {
         { divider: true, inset: true }
       ]
     }
+  },
+
+  mounted () {
+    EventBus.$on('toggleNavigation', (data) => {
+      this.miniNavigation = !this.miniNavigation
+    })
   }
 }
 </script>
 
-<style scoped>
-.scroll-nav{
-  position: absolute;
-  bottom: 0;
-  right: 0;
-}
-</style>
 
 

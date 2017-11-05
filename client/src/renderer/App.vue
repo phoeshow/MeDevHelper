@@ -18,7 +18,6 @@
       v-model="toastsMsg.show"
     >
       {{ toastsMsg.text }}
-      <v-btn dark flat @click.native="toastsMsg.show = false">Close</v-btn>
     </v-snackbar>
   </v-app>
 </template>
@@ -49,7 +48,7 @@ export default {
 
   mounted () {
     // 全局提示框，通过事件总线传递内容
-    // EventBus.$emit('message', {snacbar: true, color: 'error', toastsText: 'some messages'})
+    // EventBus.$emit('message', {show: true, color: 'error', text: 'some messages'})
     EventBus.$on('message', (message) => {
       this.toastsMsg = message
     })
@@ -73,6 +72,8 @@ export default {
 
 <style>
 @import url('./assets/font.css');
-html::-webkit-scrollbar {display:none}
+html::-webkit-scrollbar,
+.hidden-scrollbar::-webkit-scrollbar {display:none}
+
 /* Global CSS */
 </style>

@@ -36,6 +36,9 @@ const mutations = {
   SET_API_API (state, payment) {
     state.apiList[payment.index].api = payment.value
   },
+  SET_API_METHOD (state, payment) {
+    state.apiList[payment.index].method = payment.value
+  },
   SET_API_DESCRIPTION (state, payment) {
     state.apiList[payment.index].description = payment.value
   },
@@ -93,6 +96,7 @@ const actions = {
       name: 'New API',
       description: '',
       api: '/',
+      method: '',
       code: '',
       project: state.currentProject._id,
       createTime: Date.now(),
@@ -115,6 +119,7 @@ const actions = {
     let willSaveApiObj = {
       name: state.apiList[index].name,
       api: state.apiList[index].api,
+      method: state.apiList[index].method,
       description: state.apiList[index].description,
       code: state.apiList[index].code,
       updateTime: Date.now()

@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar class="indigo" dark app fixed clipped-left :style="{zIndex:10}">
+  <v-toolbar class="indigo" dark app fixed clipped-left :style="{zIndex:5}">
     <v-toolbar-title>{{title}}</v-toolbar-title>
     <v-spacer></v-spacer>
     <div style="-webkit-app-region: no-drag">

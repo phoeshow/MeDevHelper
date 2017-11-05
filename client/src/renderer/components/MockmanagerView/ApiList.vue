@@ -7,7 +7,12 @@
             {{apiItem.name}}
           </v-flex>
           <v-flex xs8 class="caption grey--text">
-            {{apiItem.api}}
+            <span>
+              {{apiItem.method}}
+            </span>
+            <span class="ml-2">
+              {{apiItem.api}}
+            </span>
           </v-flex>
         </v-layout>
       </div>

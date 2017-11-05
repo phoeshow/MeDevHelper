@@ -2,7 +2,7 @@
   <v-layout wrap row>
     <v-flex xs12>
       <v-card :height="'100%'">
-        <v-card-title class="indigo white--text">
+        <v-card-title class="indigo white--text py-2">
           <span class="title">Setting</span>
           <span class="body-2 ml-4">{{currentProject.name}} ---</span>
           <span class="body-2">{{currentProject.version}}</span>
@@ -63,17 +63,19 @@
           </v-dialog>
           <!-- 对话框结束 -->
         </v-card-title>
-        <v-layout row wrap>
-          <v-flex xs3>
-            <project-list
-              :projectList="projectList"  
-            ></project-list>
-          </v-flex>
-          <v-flex xs9>
-            <api-list
-              :apiList="apiList"></api-list>
-          </v-flex>
-        </v-layout>
+        <v-card-text class="px-0 py-0 setting-card">
+          <v-layout row wrap>
+            <v-flex xs3 :style="{overflowY:'scroll'}" class="hidden-scrollbar right-border-div">
+              <project-list
+                :projectList="projectList"  
+              ></project-list>
+            </v-flex>
+            <v-flex xs9 class="grey hidden-scrollbar" :style="{overflowY:'scroll'}">
+              <api-list
+                :apiList="apiList"></api-list>
+            </v-flex>
+          </v-layout>
+        </v-card-text>
       </v-card>
     </v-flex>
   </v-layout>
@@ -159,3 +161,12 @@ export default {
   }
 }
 </script>
+<style scoped>
+.setting-card{
+  height:calc(100vh -  80px - 56px - 56px); /* all screen height - (toolbar+container paddingtop) - card title - footbar height */
+  overflow: hidden;
+}
+.right-border-div{
+  border-right: 1px solid rgba(0,0,0,0.12);
+}
+</style>

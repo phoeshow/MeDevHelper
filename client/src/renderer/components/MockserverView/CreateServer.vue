@@ -10,7 +10,9 @@
         </v-flex>
         <v-spacer></v-spacer>
         <v-flex xs12 sm12 md4>
-          <v-select label="Config"></v-select>
+          <v-select 
+            label="Project"
+            ></v-select>
         </v-flex>
         <v-spacer></v-spacer>
         <v-flex xs12 sm12 md2>
@@ -56,12 +58,14 @@ export default {
           message.text = bind + ' requires elevated privileges'
           message.color = 'error'
           message.show = true
+          EventBus.$emit('message', message)
           console.error(bind + ' requires elevated privileges')
           break
         case 'EADDRINUSE':
           message.text = bind + ' is already in use'
           message.color = 'error'
           message.show = true
+          EventBus.$emit('message', message)
           console.error(bind + ' is already in use')
           break
         default:

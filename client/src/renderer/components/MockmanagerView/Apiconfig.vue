@@ -2,28 +2,32 @@
   <v-card flat>
     <v-card-text class="grey lighten-3">
       <v-layout row wrap>
-        <v-flex xs6 class="px-1">
+        <v-flex xs4>
           <v-text-field
             name="input-1"
             label="Name"
             v-model="currentApiName"
           ></v-text-field>
-        </v-flex>
-        <v-flex xs6 class="px-1">
+          <v-select
+              v-bind:items="apiMethods"
+              v-model="currentApiMethod"
+              label="Method"
+              single-line
+              bottom
+            ></v-select>
           <v-text-field
             name="input-2"
             label="API"
             v-model="currentApiApi"
           ></v-text-field>
-        </v-flex>
-        <v-flex xs12 class="px-1">
           <v-text-field
             name="input-3"
             label="description"
             v-model="currentApiDescription"
           ></v-text-field>
         </v-flex>
-        <v-flex xs12>
+
+        <v-flex xs8 class="pl-4">
           <codemirror
             ref="myEditor"
             v-model="currentApiCode"
@@ -63,7 +67,9 @@ export default {
         autoCloseBrackets: true,
         lint: true,
         lintOnChange: true
-      }
+      },
+      apiMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD', 'TRACE', 'CONNECT'],
+      e1: ''
     }
   },
   methods: {
@@ -91,9 +97,17 @@ export default {
         this.$store.commit('SET_API_NAME', {index: this.index, value: value})
       }
     },
+    currentApiMethod: {
+      get () {
+        return this.$store.state.MockManager.apiList[this.index].method
+      },
+      set (value) {
+        this.$store.commit('SET_API_METHOD', {index: this.index, value: value})
+      }
+    },
     currentApiApi: {
       get () {
-        return this.$store.state.MockManager.apiList[this.$props.index].api
+        return this.$store.state.MockManager.apiList[this.index].api
       },
       set (value) {
         this.$store.commit('SET_API_API', {index: this.index, value: value})
@@ -101,7 +115,7 @@ export default {
     },
     currentApiCode: {
       get () {
-        return this.$store.state.MockManager.apiList[this.$props.index].code
+        return this.$store.state.MockManager.apiList[this.index].code
       },
       set (value) {
         this.$store.commit('SET_API_CODE', {index: this.index, value: value})
@@ -109,7 +123,7 @@ export default {
     },
     currentApiDescription: {
       get () {
-        return this.$store.state.MockManager.apiList[this.$props.index].description
+        return this.$store.state.MockManager.apiList[this.index].description
       },
       set (value) {
         this.$store.commit('SET_API_DESCRIPTION', {index: this.index, value: value})

@@ -1,8 +1,8 @@
 <template>
   <v-layout wrap row>
     <v-flex xs12>
-      <v-card dark :height="'100%'">
-        <v-card-title class="deep-orange py-1">
+      <v-card :height="'100%'">
+        <v-card-title class="indigo white--text">
           <span class="title">Setting</span>
           <span class="body-2 ml-4">{{currentProject.name}} ---</span>
           <span class="body-2">{{currentProject.version}}</span>

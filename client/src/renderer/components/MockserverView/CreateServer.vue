@@ -1,6 +1,6 @@
 <template>
   <v-card class="mb-3">
-    <v-card-title>
+    <v-card-title class="indigo white--text title">
       Create Server
     </v-card-title>
     <v-card-text>
@@ -14,7 +14,7 @@
         </v-flex>
         <v-spacer></v-spacer>
         <v-flex xs12 sm12 md2>
-          <v-btn color="green" @click="createServer">
+          <v-btn color="green" dark @click="createServer">
             <v-icon>play_arrow</v-icon>
             start
           </v-btn>

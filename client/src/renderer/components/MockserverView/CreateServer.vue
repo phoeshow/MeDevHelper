@@ -1,6 +1,6 @@
 <template>
   <v-card class="mb-3">
-    <v-card-title class="indigo white--text title">
+    <v-card-title class="indigo white--text subheading">
       Create Server
     </v-card-title>
     <v-card-text>

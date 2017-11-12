@@ -100,7 +100,8 @@ const actions = {
       code: '',
       project: state.currentProject._id,
       createTime: Date.now(),
-      updateTime: ''
+      updateTime: '',
+      isActive: false
     }
     db.apis.insert(doc, (err, newDoc) => {
       if (err) throw err
@@ -143,6 +144,63 @@ const actions = {
       // deleted successfully
       commit('DELETE_API', index)
     })
+  },
+  toggleActiveApi ({commit, state}, index) {
+    // active one api ,if some api use the same name,active will failed
+    let willToggleApiId = state.apiList[index]._id
+    let api = state.apiList[index].api
+    let isActive = state.apiList[index].isActive
+    if (isActive) {
+      // 当前api正处于激活状态
+      return new Promise((resolve, reject) => {
+        db.apis.update({_id: willToggleApiId}, {$set: {isActive: false}}, {}, (err) => {
+          if (err) {
+            reject(err)
+          } else {
+            db.apis.find({_id: willToggleApiId}, (err, docs) => {
+              if (err) {
+                reject(err)
+              }
+              commit('UPDATE_API', {
+                index: index,
+                api: docs[0]
+              })
+              resolve(docs)
+            })
+          }
+        })
+      })
+    } else {
+      // 当前api正处于未激活状态,先检查是不是有同名的api正处于激活状态，如果有的话不允许激活
+      return new Promise((resolve, reject) => {
+        db.apis.find({api: api, isActive: true}, (err, docs) => {
+          if (err) {
+            reject(err)
+          } else {
+            if (docs.length > 0) {
+              reject(new Error(`only one active api '${api}'`))
+            } else {
+              db.apis.update({_id: willToggleApiId}, {$set: {isActive: true}}, {}, (err) => {
+                if (err) {
+                  reject(err)
+                } else {
+                  db.apis.find({_id: willToggleApiId}, (err, docs) => {
+                    if (err) {
+                      reject(err)
+                    }
+                    commit('UPDATE_API', {
+                      index: index,
+                      api: docs[0]
+                    })
+                    resolve(docs)
+                  })
+                }
+              })
+            }
+          }
+        })
+      })
+    }
   }
 }
 

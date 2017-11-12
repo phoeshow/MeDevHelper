@@ -1,7 +1,7 @@
 <template>
   <v-app id="inspire" light>
     <Navigation></Navigation>
-    <Toolbar style="-webkit-app-region: drag;-webkit-user-select: none"></Toolbar>
+    <Toolbar></Toolbar>
     <main>
       <v-content>
         <v-container fluid fill-height>

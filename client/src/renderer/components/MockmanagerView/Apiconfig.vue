@@ -36,11 +36,6 @@
         </v-flex>
       </v-layout>
     </v-card-text>
-    <v-card-actions class="grey lighten-3">
-      <v-btn @click="deleteApi" color="error">delete</v-btn>
-      <v-spacer></v-spacer>
-      <v-btn @click="saveApi">save</v-btn>
-    </v-card-actions>
   </v-card>
 </template>
 <script>
@@ -48,8 +43,6 @@ import codemirror from '../common/codemirror'
 import 'codemirror/addon/edit/closebrackets' // 自动补全括号
 import 'codemirror/addon/edit/matchbrackets' // 高亮匹配括号
 import 'codemirror/addon/lint/json-lint'
-import {mapActions} from 'vuex'
-// import Code from './code'
 require('codemirror/addon/lint/lint.css')
 export default {
   data () {
@@ -70,19 +63,6 @@ export default {
       },
       apiMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD', 'TRACE', 'CONNECT'],
       e1: ''
-    }
-  },
-  methods: {
-    saveApi () {
-      this.actionSaveApi(this.index)
-    },
-    ...mapActions({
-      actionAddApi: 'addApi',
-      actionSaveApi: 'updateApi',
-      actionDeleteApi: 'deleteApi'
-    }),
-    deleteApi () {
-      this.actionDeleteApi(this.index)
     }
   },
   computed: {

@@ -2333,8 +2333,7 @@ function createWindow() {
     useContentSize: true,
     width: 1024,
     minWidth: 800,
-    minHeight: 600,
-    frame: false
+    minHeight: 600
   });
 
   mainWindow.loadURL(winURL);

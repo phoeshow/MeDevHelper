@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title class="indigo white--text title">
+    <v-card-title class="indigo white--text subheading">
       Server List
     </v-card-title>
     <v-card-text>

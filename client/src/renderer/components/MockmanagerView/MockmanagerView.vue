@@ -2,20 +2,20 @@
   <v-layout wrap row>
     <v-flex xs12>
       <v-card :height="'100%'">
-        <v-card-title class="indigo white--text py-2">
-          <span class="title">Setting</span>
-          <span class="body-2 ml-4">{{currentProject.name}} ---</span>
-          <span class="body-2">{{currentProject.version}}</span>
+        <v-card-title class="indigo white--text">
+          <span class="subheading">Setting</span>
+          <span class="body-1 ml-4">{{currentProject.name}} ---</span>
+          <span class="body-1">{{currentProject.version}}</span>
           <v-spacer></v-spacer>
-          <v-btn icon small @click="createProjectDialog = true" dark>
+          <v-btn icon small @click="createProjectDialog = true" dark class="my-0">
             <!-- 创建新工程 -->
             <v-icon>create_new_folder</v-icon>
           </v-btn>
-          <v-btn small icon dark @click="createNewApi">
+          <v-btn small icon dark @click="createNewApi" class="my-0">
             <!-- 在当前工程中创建新设置 -->
             <v-icon>note_add</v-icon>
           </v-btn>
-          <v-btn small icon dark>
+          <v-btn small icon dark class="my-0">
             <v-icon>sort</v-icon>
           </v-btn>
           <!-- 创建新工程的对话框 -->

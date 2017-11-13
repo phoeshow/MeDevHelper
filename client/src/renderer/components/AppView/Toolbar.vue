@@ -8,7 +8,7 @@
 export default {
   data () {
     return {
-      title: 'MeDevHelper'
+      title: 'Dev Tools'
     }
   },
   methods: {
